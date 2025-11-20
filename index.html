@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skrylle Digital Checklista</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; background: #f7f7f7; }
+.step { background: white; margin-bottom: 20px; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.step img { width: 100%; max-width: 400px; border-radius: 10px; display: block; margin-bottom: 10px; cursor: pointer; }
+.step label { font-size: 20px; display: flex; align-items: center; gap: 10px; }
+audio { width: 100%; margin-top: 10px; display: block; }
+.error { border: 2px solid red; color: red; padding: 5px; margin-top: 5px; }
+</style>
+</head>
+<body>
+<h1>Skrylle Digital Checklista</h1>
+<script>
+const container = document.body;
+for (let i = 1; i <= 17; i++) {
+  const stepDiv = document.createElement('div');
+  stepDiv.className = 'step';
+
+  const label = document.createElement('label');
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.id = `steg${i}`;
+  label.appendChild(checkbox);
+  label.appendChild(document.createTextNode(`Steg ${i}`));
+
+  const img = document.createElement('img');
+  img.src = `steg${i}.png`;
+  img.alt = `Bild för steg ${i}`;
+  img.addEventListener('click', () => {
+    if (audio) audio.play();
+  });
+  img.onerror = () => {
+    const err = document.createElement('div');
+    err.className = 'error';
+    err.textContent = `Kunde inte hitta filen steg${i}.png`;
+    stepDiv.appendChild(err);
+  };
+
+  const audio = document.createElement('audio');
+  audio.src = `steg${i}.mp3`;
+  audio.onerror = () => {
+    const err = document.createElement('div');
+    err.className = 'error';
+    err.textContent = `Kunde inte hitta filen steg${i}.mp3`;
+    stepDiv.appendChild(err);
+  };
+
+  stepDiv.appendChild(label);
+  stepDiv.appendChild(img);
+  stepDiv.appendChild(audio);
+  container.appendChild(stepDiv);
+}
+</script>
+</body>
+</html>
